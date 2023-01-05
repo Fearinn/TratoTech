@@ -1,0 +1,77 @@
+@import "styles/breakpoints";
+
+:where(.header) {
+  background-image: url("/assets/fundo.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 150px 120px 100px 120px;
+  position: relative;
+  @media (max-width: $tablet) {
+    padding-top: 250px;
+  }
+  @media (max-width: $mobile-sm) {
+    padding: 250px 50px 100px 50px;
+  }
+}
+
+.header:not(:has(img)) {
+  .container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titulo {
+    color: white;
+    font-size: 60px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .descricao {
+    color: white;
+    font-size: 25px;
+    font-weight: 400;
+  }
+}
+
+.header:has(img) {
+  display: grid;
+  grid-template-areas: "texto imagem";
+  grid-template-columns: 1fr 2fr;
+  justify-content: space-between;
+  @media (max-width: $tablet) {
+    gap: 20px;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas: "texto" "imagem";
+    text-align: center;
+  }
+  .header-texto {
+    color: white;
+    grid-area: texto;
+    h1 {
+      font-size: 60px;
+    }
+    h2 {
+      font-size: 25px;
+    }
+  }
+  .header-button {
+    display: flex;
+    @media (max-width: $tablet) {
+      justify-content: center;
+    }
+  }
+  .header-imagem {
+    align-self: center;
+    grid-area: imagem;
+    justify-self: center;
+    overflow: hidden;
+    max-width: 700px;
+    img {
+      border-radius: 144px;
+      width: 100%;
+    }
+  }
+}
