@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 import assistenteVirtual from "assets/itens/assistente-virtual.png";
 import airpod from "assets/itens/airpod.png";
@@ -25,8 +25,9 @@ import caixaSom from "assets/itens/caixa-som.png";
 import caixaSomBluetooth from "assets/itens/caixa-som-bluetooth.png";
 import miniSystem from "assets/itens/mini-system.png";
 import tablet from "assets/itens/tablet.png";
+import IItem from "interfaces/Item";
 
-const initialState = [
+const initialState: IItem[] = [
   {
     title: "Assistente virtual",
     description:
@@ -283,15 +284,30 @@ const itemsSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    changeFavorite: (state, { payload }) => {
-      state = state.map((item) => {
+    changeFavorite: (state, { payload }: PayloadAction<string>) => {
+      state.map((item) => {
         if (item.id === payload) item.favorite = !item.favorite;
         return item;
       });
     },
+    registerItem: (state, { payload }: PayloadAction<IItem>) => {
+      state.push(payload);
+      console.log(payload);
+    },
+    changeItem: (
+      state,
+      { payload }: PayloadAction<{ id: string; title: string }>
+    ) => {
+      const index = state.findIndex((item) => item.id === payload.id);
+      Object.assign(state[index], { title: payload.title });
+    },
+    deleteItem: (state, {payload}: PayloadAction<string>) => {
+      const index = state.findIndex((item) => item.id === payload)
+      state.splice(index, 1)
+    }
   },
 });
 
-export const { changeFavorite } = itemsSlice.actions;
+export const { changeFavorite, registerItem, changeItem, deleteItem } = itemsSlice.actions;
 
 export default itemsSlice.reducer;

@@ -1,3 +1,4 @@
+import Advertise from "pages/Advertise";
 import Cart from "pages/Cart";
 import Category from "pages/Category";
 import DefaultPage from "pages/DefaultPage/DefaultPage";
@@ -11,7 +12,9 @@ function Router() {
         <Route path="/" element={<DefaultPage />}>
           <Route index element={<Home />}></Route>
           <Route path="category/:categoryName" element={<Category />} />
-          <Route path="cart" element={<Cart/>}/>
+          <Route path="cart" element={<Cart />} />
+          <Route path="advertise/:categoryName" element={<Advertise />}/>
+          <Route path="advertise" element={<Advertise />}/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,3 +1,4 @@
+import Button from "components/Button";
 import Header from "components/Header";
 import Item from "components/Item";
 import { useTypedDispatch, useTypedSelector } from "hooks";
@@ -51,12 +52,12 @@ function Cart() {
             Subtotal: <strong>{cart.total.toFixed(2)}</strong>
           </span>
         </div>
-        <button
-          className={styles.finalizar}
+        <Button
+          type="button"
           onClick={() => dispatch(resetCart())}
         >
           Finalizar compra
-        </button>
+        </Button>
       </div>
     </>
   );
