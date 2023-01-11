@@ -1,53 +1,55 @@
-import { createSlice } from '@reduxjs/toolkit';
-import automotivoThumb from 'assets/categorias/thumbnail/automotivo.png';
-import eletronicosThumb from 'assets/categorias/thumbnail/eletronicos.png';
-import escritorioThumb from 'assets/categorias/thumbnail/escritorio.png';
-import jogosThumb from 'assets/categorias/thumbnail/jogos.png';
-import somThumb from 'assets/categorias/thumbnail/som.png';
-import automotivoHeader from 'assets/categorias/header/automotivo.png';
-import eletronicosHeader from 'assets/categorias/header/eletronicos.png';
-import escritorioHeader from 'assets/categorias/header/escritorio.png';
-import jogosHeader from 'assets/categorias/header/jogos.png';
-import somHeader from 'assets/categorias/header/som.png';
+import { createStandaloneToast } from "@chakra-ui/toast";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import ICategory from "interfaces/Category";
+import categoriesService from "services/categories";
 
-const initialState = [{
-  name: 'Eletrônicos',
-  thumbnail: eletronicosThumb as string,
-  header: eletronicosHeader as string,
-  id: 'eletronicos',
-  description: 'Os melhores e mais atuais dispositivos eletrônicos estão aqui!'
-}, {
-  name: 'Automotivo',
-  thumbnail: automotivoThumb as string,
-  header: automotivoHeader as string,
-  id: 'automotivos',
-  description: 'Encontre aqui equipamentos para deixar seu carro com a sua cara!'
-}, {
-  name: 'Jogos',
-  thumbnail: jogosThumb as string,
-  header: jogosHeader as string,
-  id: 'jogos',
-  description: 'Adquira os consoles e jogos mais atuais do mercado !'
-}, {
-  name: 'Escritório',
-  thumbnail: escritorioThumb as string,
-  header: escritorioHeader as string,
-  id: 'escritorio',
-  description: 'Tudo para o que escritório ficar incrível!'
-}, {
-  name: 'Som e imagem',
-  thumbnail: somThumb as string,
-  header: somHeader as string,
-  id: 'som',
-  description: 'Curta suas músicas e seus filmes com a melhor qualidade!'
-}];
+const initialState: ICategory[] = [];
+
+const { toast } = createStandaloneToast();
+
+export const fetchCategories = createAsyncThunk(
+  "categories/fetch",
+  categoriesService.find
+);
 
 const categoriesSlice = createSlice({
-    name: "categories",
-    initialState,
-    reducers: {
-        
-    }
+  name: "categories",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(
+        fetchCategories.fulfilled,
+        (_, { payload }: PayloadAction<ICategory[]>) => {
+          toast({
+            title: "Sucesso!",
+            description: "Categorias carregadas com sucesso!",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+          return payload;
+        }
+      )
+      .addCase(fetchCategories.pending, () => {
+        toast({
+          title: "Carregando!",
+          description: "Categorias sendo carregadas!",
+          status: "loading",
+          duration: 1000,
+          isClosable: true,
+        });
+      })
+      .addCase(fetchCategories.rejected, () => {
+        toast({
+          title: "Erro!",
+          description: "Houve um problema ao carregar as categorias",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      });
+  },
 });
 
 export default categoriesSlice.reducer;

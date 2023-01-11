@@ -8,6 +8,7 @@ import styles from "./Category.module.scss";
 function Category() {
   const navigate = useNavigate();
   const { categoryName } = useParams();
+
   const { category, items } = useTypedSelector((state) => {
     const search = new RegExp(state.search, "i");
     return {
@@ -19,6 +20,7 @@ function Category() {
       ),
     };
   });
+
   return (
     <>
       <div>

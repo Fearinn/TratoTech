@@ -2,12 +2,22 @@ import Header from "components/Header";
 import styles from "./Home.module.scss";
 import relogio from "assets/inicial.png";
 import { useNavigate } from "react-router-dom";
-import { useTypedSelector } from "hooks";
+import { useTypedDispatch, useTypedSelector } from "hooks";
 import Button from "components/Button";
+import { fetchCategories } from "store/reducers/categories";
+import { useEffect } from "react";
+import { fetchItems } from "store/reducers/items";
 
 function Home() {
   const categories = useTypedSelector((state) => state.categories);
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchItems())
+  }, [dispatch]);
+
   return (
     <>
       <Header
@@ -16,7 +26,9 @@ function Home() {
         image={relogio}
         className={styles.header}
       >
-        <Button type="button" onClick={() => navigate("/advertise")}>Anunciar</Button>
+        <Button type="button" onClick={() => navigate("/advertise")}>
+          Anunciar
+        </Button>
       </Header>
       <div className={styles.categorias}>
         <div className={styles["categorias-title"]}>
