@@ -6,10 +6,11 @@ Project from the course track [React: Gestão de Estados com Redux](https://curs
 
 This project uses a fake API from **json-server**. You need to run it locally in order to use all features of the application.
 
-Download the repositor and run the following commands:
+Download the repositor and follow these steps:
 
 - `npm install`
-- `npm run server`
+- `npm run server` (make sure it uses localhost:3000)
+- use `npm run start` to run the application locally or use the version hosted in Vercel.
 
 ## 👨‍💻 Tech stack
 
